@@ -14,8 +14,8 @@ public class Estado {
     private String[] matriz;
     private Estado pai;
     private final int g;
-    private final int hLinha;
-    private final int f;
+    private int hLinha;
+    private int f;
     private List<Estado> filhos;
 
     public Estado(String valor) {
@@ -31,9 +31,9 @@ public class Estado {
         this.hashKey = valor.replace(" ", "#");
         this.g = pai.getGMais1();
         this.matriz = valor.split(" ");
-        this.hLinha = Heuristica.getH1(this.matriz);
-        this.f = this.g + this.hLinha;
-        this.pai = pai;
+//        this.hLinha = Heuristica.getH1(this.matriz);
+//        this.f = this.g + this.hLinha;
+//        this.pai = pai;
     }
 
     public List<Estado> calculaFilhos() {
@@ -121,4 +121,47 @@ public class Estado {
     public int getF() {
         return f;
     }
+
+    public int gethLinha() {
+        return hLinha;
+    }
+
+    public void calcularhLinha() {
+        this.hLinha = Heuristica.getH1(this.matriz);
+    }
+
+    public Boolean ehFinal() {
+        return this.getHashKey().equals("1#12#11#10#2#13#0#9#3#14#15#8#4#5#6#7");
+    }
+
+    public void calcularF() {
+        this.f = this.hLinha + this.g;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Estado estado = (Estado) o;
+
+        return !(hashKey != null ? !hashKey.equals(estado.hashKey) : estado.hashKey != null);
+    }
+
+    @Override
+    public String toString() {
+        String toPrint = "";
+
+        for (int i = 0; i < matriz.length; i++) {
+            toPrint += matriz[i];
+            if (i % 4 == 3 ) {
+                toPrint += "\n";
+            } else {
+                toPrint += "\t";
+            }
+
+        }
+            return toPrint;
+    }
+
 }

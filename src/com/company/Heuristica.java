@@ -16,7 +16,7 @@ public class Heuristica {
         for(int i=0;i<4;i++){
             for(int j=0;j<4;j++){
                 int x =Integer.valueOf(estado[(i*4)+j]);
-                if(estadoFinal[i][j] == x) {
+                if(estadoFinal[i][j] != x) {
                     count++;
                 }
             }
