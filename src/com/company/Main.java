@@ -1,17 +1,18 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        // write your code here
-        String inicio = "1 12 11 10 0 13 15 9 2 14 6 8 3 4 5 7";
-        Map<String, Estado> hashmap = new HashMap<>();
+//      Lê dado do teclado
+        Scanner keyboard = new Scanner(System.in);
+        String inicio = keyboard.nextLine();
 
+
+//        Map<String, Estado> hashmap = new HashMap<>();
+
+//
         List<Estado> A = new ArrayList<>();//Aberto
         List<Estado> F = new ArrayList<>();//Fechado
         List<Estado> S = new ArrayList<>();//Inicial
@@ -22,7 +23,6 @@ public class Main {
         Estado v = Utils.menorFNaoContido(A, F);
         Estado resultado = null;
         while (v != null) {
-            System.out.println(v);
             A.remove(v);
             F.add(v);
             if (v.ehFinal()) {
@@ -42,12 +42,14 @@ public class Main {
                     m.calcularF();
                 }
             }
+//            Encontra o estado v com o menor f(v) em A que não esta contido em F
             v = Utils.menorFNaoContido(A, F);
         }
-        if ((v = Utils.menorFContido(A, F)) != null) {
-            System.out.println("Sucesso --->\n" + resultado+"\ng:"+resultado.getG());
-        } else {
-            System.out.println("Erro --------#---------");
+
+
+//        Caso sucesso imprima o g(v)
+        if (Utils.menorFContido(A, F) != null) {
+            System.out.println(resultado.getG());
         }
     }
 }

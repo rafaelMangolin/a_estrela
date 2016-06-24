@@ -19,10 +19,11 @@ public class Estado {
     private List<Estado> filhos;
 
     public Estado(String valor) {
-        this.hashKey = valor.replace(" ", "#");
+        this.hashKey = valor.trim().replace(" ", "#");
         this.g = 0;
-        this.matriz = valor.split(" ");
-        this.hLinha = Heuristica.getH1(this.matriz);
+        this.matriz = valor.split("(\\s)+");
+//        this.hLinha = Heuristica.getH1(this.matriz);
+        this.hLinha = Heuristica.getH2(this.matriz);
         this.f = this.g + this.hLinha;
         this.pai = null;
     }
@@ -31,9 +32,6 @@ public class Estado {
         this.hashKey = valor.replace(" ", "#");
         this.g = pai.getGMais1();
         this.matriz = valor.split(" ");
-//        this.hLinha = Heuristica.getH1(this.matriz);
-//        this.f = this.g + this.hLinha;
-//        this.pai = pai;
     }
 
     public List<Estado> calculaFilhos() {
@@ -127,7 +125,8 @@ public class Estado {
     }
 
     public void calcularhLinha() {
-        this.hLinha = Heuristica.getH1(this.matriz);
+//        this.hLinha = Heuristica.getH1(this.matriz);
+        this.hLinha = Heuristica.getH2(this.matriz);
     }
 
     public Boolean ehFinal() {
@@ -163,5 +162,4 @@ public class Estado {
         }
             return toPrint;
     }
-
 }
