@@ -14,24 +14,27 @@ public class Estado {
     private String[] matriz;
     private Estado pai;
     private final int g;
-    private int hLinha;
-    private int f;
+    private float hLinha;
+    private float f;
     private List<Estado> filhos;
 
     public Estado(String valor) {
-        this.hashKey = valor.trim().replace(" ", "#");
+        this.hashKey = valor.trim().replaceAll("(\\s)+", "#");
         this.g = 0;
         this.matriz = valor.split("(\\s)+");
 //        this.hLinha = Heuristica.getH1(this.matriz);
-        this.hLinha = Heuristica.getH2(this.matriz);
+//        this.hLinha = Heuristica.getH2(this.matriz);
+        this.hLinha = Heuristica.getH3(this.matriz);
+//        this.hLinha = Heuristica.getH4(this.matriz);
+//        this.hLinha = Heuristica.getH5(this.matriz);
         this.f = this.g + this.hLinha;
         this.pai = null;
     }
 
     public Estado(String valor, Estado pai) {
-        this.hashKey = valor.replace(" ", "#");
+        this.hashKey = valor.trim().replaceAll("(\\s)+", "#");
         this.g = pai.getGMais1();
-        this.matriz = valor.split(" ");
+        this.matriz = valor.split("(\\s)+");
     }
 
     public List<Estado> calculaFilhos() {
@@ -116,17 +119,20 @@ public class Estado {
         return g + 1;
     }
 
-    public int getF() {
+    public float getF() {
         return f;
     }
 
-    public int gethLinha() {
+    public float gethLinha() {
         return hLinha;
     }
 
     public void calcularhLinha() {
 //        this.hLinha = Heuristica.getH1(this.matriz);
-        this.hLinha = Heuristica.getH2(this.matriz);
+//        this.hLinha = Heuristica.getH2(this.matriz);
+        this.hLinha = Heuristica.getH3(this.matriz);
+//        this.hLinha = Heuristica.getH4(this.matriz);
+//        this.hLinha = Heuristica.getH5(this.matriz);
     }
 
     public Boolean ehFinal() {

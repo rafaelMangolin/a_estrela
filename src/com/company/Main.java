@@ -35,7 +35,7 @@ public class Main {
                 if (mLinha != null) {
                     A.remove(mLinha);
                 }
-                if (Utils.contemNoArray(m, A) == null && Utils.contemNoArray(m, T) == null) {
+                if (Utils.contemNoArray(m, A) == null && Utils.contemNoArray(m, F) == null) {
                     A.add(m);
                     m.setPai(v);
                     m.calcularhLinha();

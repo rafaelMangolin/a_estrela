@@ -17,26 +17,61 @@ public class Heuristica {
             {1,1}, {2,1}, {2,2}, {1,2}
     };
 
-    public static int getH2(String[] estado) {
+    static final int[] posicaoFinal = {6,0,4,8,12,13,14,15,11,7,3,2,1,5,9,10};
+
+    public static float getH5(String[] estado){
+        float h1 = getH1(estado);
+        float h2 = getH2(estado);
+        float h3 = getH3(estado);
+        return Math.max(Math.max(h1,h2),h3);
+    }
+
+    public static float getH4(String[] estado){
+        float h1 = getH1(estado);
+        float h2 = getH2(estado);
+        float h3 = getH3(estado);
+
+        float p1 = .4f;
+        float p2 = .2f;
+        float p3 = .4f;
+
+        if(p1+p2+p3 != 1) throw new RuntimeException("Soma de p1, p2, p3 diferente de 1");
+
+        return (p1*h1)+(p2*h2)+(p3*h3);
+    }
+
+    public static float getH3(String[] estado){
+        int count = 0;
+        for(int i=0;i<4;i++){
+            for(int j=0;j<4;j++){
+                int valor =Integer.valueOf(estado[(i*4)+j]);
+                if(estadoFinal[i][j] != valor) {
+                    int vetIndex = posicaoFinal[valor];
+                    int x = vetIndex/4;
+                    int y = vetIndex%4;
+                    count += Math.abs(x-i) + Math.abs(y-j);
+                }
+            }
+        }
+        return count;
+    }
+
+    public static float getH2(String[] estado) {
         int count = 0;
         int value = -1;
         for(int x=0;x<caminhoFinal.length;x++){
             int i = caminhoFinal[x][0];
             int j = caminhoFinal[x][1];
             int data = Integer.valueOf(estado[(i*4)+j]);
-            if(value > 0 && ((value == 15 && data != 0) || (value != 15 && (value+1) != data))){
+            if(value > 0 && ((value == 15 && data != 0) || ((value != 15) && (value+1) != data))){
                 count++;
             }
             value = data;
         }
-        //2 1 12 11
-        //3 15 6 10
-        //4 0  7  9
-        //5 13 14 8
         return count;
     }
 
-    public static int getH1(String[] estado) {
+    public static float getH1(String[] estado) {
         int count = 0;
         for(int i=0;i<4;i++){
             for(int j=0;j<4;j++){
