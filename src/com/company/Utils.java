@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -7,25 +8,12 @@ import java.util.List;
  */
 public class Utils {
 
-    public static Estado menorFNaoContido(List<Estado> list, List<Estado> fechados){
-        return list.stream().reduce(null,(a,b)->{
-            if(!fechados.contains(b) && (a == null || a.getF() > b.getF())) return b;
-            return a;
-        });
-    }
-
-    public static Estado menorFContido(List<Estado> list, List<Estado> fechados) {
-        return list.stream().reduce(null,(a,b)->{
-            if(fechados.contains(b) && (a == null || a.getF() > b.getF())) return b;
-            return a;
-        });
-    }
-
-    public static Estado contemNoArray(Estado m, List<Estado> lista) {
-        return lista.stream().reduce(null,(base,valor)->{
-            if(valor.equals(m) && m.getG() < valor.getG()) return valor;
-            return base;
-        });
+    public static Estado menorF(HashMap<String,Estado> map) {
+        Estado toReturn = null;
+        for(Estado b: map.values()){
+            if(toReturn == null || toReturn.getF() > b.getF()) toReturn = b;
+        }
+        return toReturn;
     }
 
 }

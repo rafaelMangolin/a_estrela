@@ -16,7 +16,6 @@ public class Estado {
     private final int g;
     private float hLinha;
     private float f;
-    private List<Estado> filhos;
 
     public Estado(String valor) {
         this.hashKey = valor.trim().replaceAll("(\\s)+", "#");
@@ -24,9 +23,9 @@ public class Estado {
         this.matriz = valor.split("(\\s)+");
 //        this.hLinha = Heuristica.getH1(this.matriz);
 //        this.hLinha = Heuristica.getH2(this.matriz);
-        this.hLinha = Heuristica.getH3(this.matriz);
+//        this.hLinha = Heuristica.getH3(this.matriz);
 //        this.hLinha = Heuristica.getH4(this.matriz);
-//        this.hLinha = Heuristica.getH5(this.matriz);
+        this.hLinha = Heuristica.getH5(this.matriz);
         this.f = this.g + this.hLinha;
         this.pai = null;
     }
@@ -41,34 +40,34 @@ public class Estado {
         int zero = getZeroIndex();
         int i = zero / 4;
         int j = zero % 4;
-        filhos = new ArrayList<>();
+        List<Estado> toReturn = new ArrayList<>();
         //filho da esquerda
         if (j > 0) {
-            addFilho(i, j, i, j - 1);
+            addFilho(i, j, i, j - 1,toReturn);
         }
         //filho da direita
         if (j < 3) {
-            addFilho(i, j, i, j + 1);
+            addFilho(i, j, i, j + 1,toReturn);
         }
         //filho de cima
         if (i > 0) {
-            addFilho(i, j, i - 1, j);
+            addFilho(i, j, i - 1, j,toReturn);
         }
         //filho de baixo
         if (i < 3) {
-            addFilho(i, j, i + 1, j);
+            addFilho(i, j, i + 1, j,toReturn);
         }
 
 
-        return null;
+        return toReturn;
     }
 
-    private void addFilho(int i, int j, int i2, int j2) {
+    private void addFilho(int i, int j, int i2, int j2, List<Estado> toAdd) {
         String[] arrAux = matriz.clone();
         String aux = matriz[(4 * i2) + j2];
         arrAux[(4 * i2) + j2] = "0";
         arrAux[(4 * i) + j] = aux;
-        filhos.add(new Estado(String.join(" ", arrAux), this));
+        toAdd.add(new Estado(String.join(" ", arrAux), this));
     }
 
     private int getZeroIndex() {
@@ -107,14 +106,6 @@ public class Estado {
         return g;
     }
 
-    public List<Estado> getFilhos() {
-        return filhos;
-    }
-
-    public void setFilhos(List<Estado> filhos) {
-        this.filhos = filhos;
-    }
-
     public int getGMais1() {
         return g + 1;
     }
@@ -130,9 +121,9 @@ public class Estado {
     public void calcularhLinha() {
 //        this.hLinha = Heuristica.getH1(this.matriz);
 //        this.hLinha = Heuristica.getH2(this.matriz);
-        this.hLinha = Heuristica.getH3(this.matriz);
+//        this.hLinha = Heuristica.getH3(this.matriz);
 //        this.hLinha = Heuristica.getH4(this.matriz);
-//        this.hLinha = Heuristica.getH5(this.matriz);
+        this.hLinha = Heuristica.getH5(this.matriz);
     }
 
     public Boolean ehFinal() {
@@ -150,7 +141,11 @@ public class Estado {
 
         Estado estado = (Estado) o;
 
-        return !(hashKey != null ? !hashKey.equals(estado.hashKey) : estado.hashKey != null);
+        if(hashKey != null){
+            return hashKey.equals(estado.hashKey);
+        }else{
+           return !(estado.hashKey != null);
+        }
     }
 
     @Override
@@ -167,5 +162,13 @@ public class Estado {
 
         }
             return toPrint;
+    }
+
+    public boolean isContido(List<Estado> fechados) {
+        for(int i = 0; i < fechados.size(); i++){
+            Estado estado = fechados.get(i);
+            if(estado.getHashKey().equals(this.hashKey)) return true;
+        }
+        return false;
     }
 }

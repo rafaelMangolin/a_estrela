@@ -59,7 +59,7 @@ public class Heuristica {
     public static float getH2(String[] estado) {
         int count = 0;
         int value = -1;
-        for(int x=0;x<caminhoFinal.length;x++){
+        for(int x=0; x<caminhoFinal.length;x++){
             int i = caminhoFinal[x][0];
             int j = caminhoFinal[x][1];
             int data = Integer.valueOf(estado[(i*4)+j]);
